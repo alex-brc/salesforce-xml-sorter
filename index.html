@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Salesforce XML Sorter</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="JavaScript tool for sorting commonly used Salesforce XML metadata files.">
+        <link rel="icon" href="favicon.png">
+        
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/collections/5.1.12/sorted-map.min.js" integrity="sha512-b5U1OF5BWLF0aYte5YXS6AQyMIyKB7iFrAfd+2NVNZvyqlm7QEP6jH/6HEP9R94aRHv3iRWJOBTI6C+T2A9G7g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="js/sorter.js"></script>
+    </head>
+    <body>
+        <p>Input your XML here</p>
+        <textarea id="input-text" name="input-text" rows="16" cols="50"></textarea>
+        <br>
+        <input type="button" onclick="submit()" value="Submit">
+        <br><br>
+        <p>Result</p>
+        <textarea id="output-text" name="output-text" rows="16" cols="50"></textarea>
+    </body>
+</html>
