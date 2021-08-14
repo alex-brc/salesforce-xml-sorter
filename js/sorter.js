@@ -9,6 +9,7 @@ sortableTags.set("recordTypeVisibilities", "recordType");
 sortableTags.set("tabVisibilities", "tab");
 sortableTags.set("userPermissions", "name");
 sortableTags.set("custom", "N/A");
+sortableTags.set("description", "N/A");
 
 const supportedMetadata = ["Profile"];
 
@@ -16,34 +17,39 @@ var charPointer = 0;
 
 function submit() {
     // Grab input
-    var inputText = document.getElementById("input-text").value;
-    
+    var inputText = document.getElementById("input-text").value.trim();
+    // Store character count to ensure no data was lost during sorting
+    var numCharacters = inputText.length;
+
     // Parse the XML
     var parser = new DOMParser();
     var xml = parser.parseFromString(inputText,"text/xml"); 
 
     var mapOfMaps = new Map();
 
-    var permissionCount = 0;
+    var simpleNodeCount = 0;
+    var complexNodeCount = 0;
 
     // For all permission nodes
     for(let currentNode of xml.getElementsByTagName("Profile")[0].childNodes){
         if(currentNode.nodeType != Node.ELEMENT_NODE)
             continue;
 
-        permissionCount++;
 
         // For simple nodes, write text to map
         if(isSimpleNode(currentNode)){
             console.log("Encountered simple node: \"" + currentNode.nodeName + "\"");
             mapOfMaps.set(currentNode.nodeName, currentNode);
+            simpleNodeCount++;
             continue;
         }
 
         // Does node belong to an existing map?     Is this node supported?
-        if(!mapOfMaps.has(currentNode.nodeName) && sortableTags.has(currentNode.nodeName))
+        if(!mapOfMaps.has(currentNode.nodeName) && sortableTags.has(currentNode.nodeName)) {
             // If supported but has no map yet, create a new map for these nodes
             mapOfMaps.set(currentNode.nodeName, new Map());
+            complexNodeCount++;
+        }
         // Else if not supported, raise error
         else if(!sortableTags.has(currentNode.nodeName)) {
             console.log("Unsupported type: " + currentNode.nodeName);
@@ -54,11 +60,10 @@ function submit() {
         // Use the corresponding child node value as key
         mapOfMaps.get(currentNode.nodeName)
             .set(getCorrespondingKey(currentNode), currentNode);
-        console.log("Set node for key: " + getCorrespondingKey(currentNode));
     }
 
 
-    console.log("Found " + permissionCount + " nodes under Profile.");
+    console.log("Found " + simpleNodeCount + " simple nodes and " + complexNodeCount + " complex nodes under Profile.");
 
 
     // Sort!
