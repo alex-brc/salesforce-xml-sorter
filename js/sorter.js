@@ -10,6 +10,7 @@ sortableTags.set("tabVisibilities", "tab");
 sortableTags.set("userPermissions", "name");
 sortableTags.set("custom", "N/A");
 sortableTags.set("description", "N/A");
+sortableTags.set("userLicense", "N/A");
 
 const supportedMetadata = ["Profile"];
 
@@ -37,7 +38,6 @@ function submit() {
 
         // For simple nodes, write text to map
         if(isSimpleNode(currentNode)){
-            console.log("Encountered simple node: \"" + currentNode.nodeName + "\"");
             mapOfMaps.set(currentNode.nodeName, currentNode);
             simpleNodeCount++;
             continue;
